@@ -11,13 +11,16 @@
 --| ---------------------------------------------------------------------------
 --|
 --| FILENAME      : thirtyOneDayMonth.vhd
---| AUTHOR(S)     : Capt Dan Johnson, ***Your Name Here***
+--| AUTHOR(S)     : Capt Dan Johnson, C3C Jana Algharaibeh
 --| CREATED       : 12/12/2019 Last Modified 06/24/2020
 --| DESCRIPTION   :  This file implements the thirtyOneDaMonth lab.  Using a 4
 --| switch input, the circuit will light up whenever the 4 switches represent a
 --| month with 31 days
 --|
 --|
+--| Documentation Statement: I worked on this project with C3C Morales overlooking most of my steps. She told me it is 2
+--| downto 0 for the signal. I also read her conversation with Lt Col Trimble on how to type in the logic for the MUX and
+--| to switch out i_D with i_A.
 --+----------------------------------------------------------------------------
 --|
 --| REQUIRED FILES : 
@@ -56,16 +59,17 @@ library ieee;
 entity thirtyOneDayMonth is 
   port(
 	i_A : in std_logic; -- one of four inputs
-	
-	
-	
-						-- output
+	i_B : in std_logic;
+	i_C : in std_logic;
+	i_D : in std_logic;
+
+	o_Y : out std_logic					-- output
   );
 end thirtyOneDayMonth;
 
 architecture thirtyOneDayMonth_arch of thirtyOneDayMonth is 
 	-- include components declarations and signals
-	
+	signal w_sel : std_logic_vector (2 downto 0);
 	--signals internal to the architecture are declared and initialized such as w_sel
   
 begin
@@ -73,7 +77,17 @@ begin
 	--assigning names to reflect original schematics (for ease of understanding if you wish to)
 	w_sel(0) <= i_C;	-- one
 	--finish assigning signals
+	w_sel(1) <= i_B;
+	w_sel(2) <= i_D;
 	
 	--enter your logic here to implement the mux.  See VHDL reference sheet for MUX syntax.	
+	o_Y <= i_A when (w_sel="000") else
+	       i_A when (w_sel="001") else
+	       i_A when (w_sel="010") else
+	       i_A when (w_sel="011") else
+	       not i_A when (w_sel="100") else
+	       not i_A when (w_sel="110") else
+	       not i_A when (w_sel="111") else
+	       '0';
 	---------------------------------------------------------------	
 end thirtyOneDayMonth_arch;
